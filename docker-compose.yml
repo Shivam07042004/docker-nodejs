@@ -1,0 +1,34 @@
+version: "3.4"
+
+services:
+  dockernode:
+    image: dockernode
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres
+    ports:
+      - "5432:5432" # Corrected port definition
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: review
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+    networks:
+      - mynetwork
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
